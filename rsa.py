@@ -1,7 +1,6 @@
 import Crypto
 from Crypto.PublicKey import RSA
 from Crypto import Random
-from base64 import b64decode
 
 random_generator = Random.new().read
 key = RSA.generate(1024, random_generator) 
