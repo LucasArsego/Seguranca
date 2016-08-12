@@ -15,8 +15,8 @@ encrypted = publickey.encrypt(hash,1024)
 
 arq = open("msg.txt", "wb")
 arq.write(msg)
-#arq.write(hash)
-#arq.write(encrypted[0])
+arq.write(hash)
+arq.write(encrypted[0])
 
 arq.write(publickey.exportKey("DER"))
 
