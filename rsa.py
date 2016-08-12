@@ -8,11 +8,11 @@ key = RSA.generate(1024, random_generator)
 
 publickey = key.publickey()
 
-encrypted = publickey.encrypt(32, 3)
+encrypted = publickey.encrypt(str.encode('biiiiiir'),1024)
 
 print ('encrypted message:', encrypted)
 
 decrypted = key.decrypt(encrypted)
 
-print ('decrypted', decrypted)
+print ('decrypted', decrypted.decode())
 
