@@ -20,8 +20,3 @@ arq.write(encrypted[0])
 
 arq.write(publickey.exportKey("DER"))
 
-print(encrypted)
-print()
-print(hash)
-print()
-print(publickey)
