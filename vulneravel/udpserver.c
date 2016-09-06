@@ -20,7 +20,7 @@ typedef struct cachorro {
 } cachorro_t;
 
 
-cachorro_t c[10];
+cachorro_t cachorros[10];
 char buf[102]; /* message buf */
 
 void fazbarulho1() {
@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
    */
 
 
-  c[0].fazbarulho = &fazbarulho1;
+  cachorros[0].fazbarulho = &fazbarulho1;
 
   if (argc != 2) {
     fprintf(stderr, "usage: %s <port>\n", argv[0]);
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
   /* setsockopt: Handy debugging trick that lets 
    * us rerun the server immediately after we kill it; 
    * otherwise we have to wait about 20 secs. 
-   * Eliminates "ERROR on binding: Adds already in use" error. 
+   * Eliminates "ERROR on binding: Address already in use" error. 
    */
   optval = 1;
   setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, 
@@ -104,14 +104,13 @@ int main(int argc, char **argv) {
     /*
      * recvfrom: receive a UDP datagram from a client
      */
-    //bzero(buf, BUFSIZE);
+    // bzero(buf, BUFSIZE);
     n = recvfrom(sockfd, buf, BUFSIZE, 0,
 		 (struct sockaddr *) &clientaddr, &clientlen);
     if (n < 0)
       error("ERROR in recvfrom");
 
-    c[0].fazbarulho();
-
+    cachorros[0].fazbarulho();
     /* 
      * gethostbyaddr: determine who sent the datagram
      */

