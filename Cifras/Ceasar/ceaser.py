@@ -1,21 +1,16 @@
-
-arq = open("/home/aluno-local/Documentos/UFFS_Lucas/Seguranca/Cifras/inputs/1.input",'rb').read()
-
-k = 17
-
-a = input()
-l = []
-
-if a == 'e':
-	out = open("1_e.output", "wb")
+def CeaserE(arqName,outName,k):
+	arq = open(arqName,'rb').read()
+	out = open(outName, "wb")
+	l = []	
 	for x in arq:
 		d = (x+k) % 256
 		l.append(d)
 	out.write(bytes(l))
 	out.close()
-if a == 'd':
-	out = open("1_e.output", "rb").read()
-	out2 = open("1_d.output", "wb")
+def CeaserD(arqName,outName,k):
+	out = open(arqName, "rb").read()
+	out2 = open(outName, "wb")
+	l = []
 	for x in out:
 		d = (x-k) % 256
 		l.append(d)

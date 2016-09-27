@@ -1,20 +1,17 @@
-l = []
-V = open("/home/aluno-local/Documentos/UFFS_Lucas/Seguranca/Cifras/key1",'rb').read()
-
-a = input()
-
-if a == 'e':
-	arq = open("/home/aluno-local/Documentos/UFFS_Lucas/Seguranca/Cifras/inputs/1.input",'rb').read()
-	out = open("1_e.output", "wb")
+def subE(arqName,outName,V):
+	l = []	
+	arq = open(arqName,'rb').read()
+	out = open(outName, "wb")	
 	for x in arq:
 		d = V[x]
 		l.append(d)
-
 	out.write(bytes(l))
 	out.close()
-if a == 'd':
-	arq = open("1_e.output",'rb').read()
-	out = open("1_d.output", "wb")
+
+def subD(arqName, outName,V):
+	l = []	
+	arq = open(arqName,'rb').read()
+	out = open(outName, "wb")
 	for x in arq:
 		for y in V:
 			if V[y] == x:

@@ -1,14 +1,10 @@
 import math 
 import os
-
-a = input()
-key = 5
-
-if a == 'e':
-	arq = open("1.input",'rb').read()
-	out = open("1_e.output", "wb")
+def trasnE(arqName,outName,key):
+	arq = open(arqName,'rb').read()
+	out = open(outName, "wb")
 	linhas = key
-	bir = os.path.getsize("1.input")
+	bir = os.path.getsize(arqName)
 	colunas = math.ceil(bir/key)
 	mat = [ [] for x in range(linhas)]
 	k = 0
@@ -26,9 +22,10 @@ if a == 'e':
 			l.append(j)
 	out.write(bytes(l))
 	out.close()
-if a == 'd':
-	arq = open("1_e.output",'rb').read()
-	out = open("1_d.output", "wb")
+
+def trasnD(arqName,out,key):
+	arq = open(arqName,'rb').read()
+	out = open(outName, "wb")
 	linhas = key
 	colunas = math.ceil(os.path.getsize("1_e.output")/key)
 	mat = [ [] for x in range(colunas)]
