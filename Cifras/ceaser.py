@@ -1,15 +1,15 @@
 def CeaserE(arqName,outName,k):
-	arq = open(arqName,'rb').read()
-	out = open(outName, "wb")
-	l = []	
+	arq = arqName
+	out = open("out_E_ceaser.txt", "wb")
+	l = []
 	for x in arq:
 		d = (x+k) % 256
 		l.append(d)
 	out.write(bytes(l))
 	out.close()
 def CeaserD(arqName,outName,k):
-	out = open(arqName, "rb").read()
-	out2 = open(outName, "wb")
+	out = arqName
+	out = open("out_D_ceaser.txt", "wb")
 	l = []
 	for x in out:
 		d = (x-k) % 256

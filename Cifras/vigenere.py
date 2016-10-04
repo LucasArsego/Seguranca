@@ -1,7 +1,7 @@
 def vigE(arqName,outName,V):
 	l = []
-	arq = open(arqName,'rb').read()
-	out = open(outName, "wb")
+	arq = arqName
+	out = open("out_E_vigenere.txt", "wb")
 	i = 0
 	k = []
 	for j in arq:
@@ -14,8 +14,8 @@ def vigE(arqName,outName,V):
 
 def vigD(arqName,outName,V):
 	l = []
-	arq = open(arqName,'rb').read()
-	out = open(outName, "wb")
+	arq = arqName
+	out = open("out_D_vigenere.txt", "wb")
 	i = 0
 	k = []
 	for j in arq:

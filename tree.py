@@ -1,4 +1,5 @@
 from bitarray import *
+import math
 
 def addprefixos(xs, p):
     return dict((k, bitarray(p) + v) for (k,v) in xs.items())
@@ -61,24 +62,65 @@ def createNode(lista):
         l.append(N(x,j))
     return l
 
-def countF(k):
+def countF(lista):
     total = 0
-    for x, j in k.items():
+    for x,j in lista.items():
         total = total + j
     return total
 
-def createIntro(lista):
-    k = {}
-    for x, j in lista.items():
-        k[x] = (countF(lista) / j)
+def countE(k):
+    total = 0
+    for x, j in k.items():
+        intro = j / countF(k)
+        total = total + (intro * (math.log(intro,256)))
+    #print(-total)
+    return -total
+
+def coddingFile(file):
+    dfrequencia = countT(file)
+    l = createNode(dfrequencia)
+    dic = huffmann(l)
+    k = bitarray()
+    for i in file:
+        k += dic[i]
     return k
 
-texto = "meu texto eh esse texto aqui"
 
+def decoddingFile(txt, chave):
+    k = {}
+    a = txt.to01()
+    for i,j in chave.items():
+        k[j.to01()] = i
+    #print(k)
+    l = []
+    n = ""
+    i = 0
+    j = 1
+    while(1):
+        n = a[i:j]
+        if n in k:
+            l.append(k[n])
+            i = j
+            j += 1
+        else:
+            j +=1
+        if j == (len(a) -1):
+            break
+    return l
+
+texto = open("in.txt",'rb').read()
+saida = open("out.txt",'wb')
 dfrequencia = countT(texto)
-dIntro = createIntro(dfrequencia)
+dEntro = countE(dfrequencia)
+print("Entropia do arquivo normal: ",dEntro)
 l = createNode(dfrequencia)
-
-print(dIntro)
-print()
-print(huffmann(l))
+j = coddingFile(texto)
+x = decoddingFile(j,huffmann(l))
+saida.write(j.tobytes())
+saida.close()
+saida2 = open("out2.txt",'wb')
+saida2.write(bytes(x))
+txt2 = open("out.txt","rb").read()
+dfrequencia = countT(txt2)
+dEntro = countE(dfrequencia)
+print("Entropia do arquivo compactado: ",dEntro)
