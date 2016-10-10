@@ -1,8 +1,8 @@
-def vigE():
+def vigE(keyV):
 	l = []
 	arq = open("in.txt",'rb').read()
 	out = open("out_E_vigenere.txt", "wb")
-	V = "lucasss"
+	V = keyV
 	V = V.encode()
 	i = 0
 	k = []
@@ -14,11 +14,11 @@ def vigE():
 	out.write(bytes(k))
 	out.close()
 
-def vigD():
+def vigD(keyV):
 	l = []
 	arq = open("out_E_vigenere.txt",'rb').read()
 	out = open("out_D_vigenere.txt", "wb")
-	V = "lucassss"
+	V = keyV
 	V = V.encode()
 	i = 0
 	k = []
