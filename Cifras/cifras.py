@@ -43,9 +43,9 @@ def AtaqueEscuroCeaser(arq):
             if w in all_words:
                 l.append(w)
 
-        if len(l) > 0:
+        if len(l) > int(len(arq)/7):
             open("Saidas/out_D_ceaser_escuro.txt","wb").write(bytes((t - key) % 256 for t in arq))
-            print("Chave: ",key)
+            print("Chave provavel para a cifra de Ceaser(Ataque Escuro): ",key)
             break
 
 # Funções da cifra de Substituicao.
@@ -106,10 +106,9 @@ def vigE(keyV):
 	out.write(bytes(k))
 	out.close()
 
-def vigD(keyV):
+def vigD(keyV,name,nameOut,op):
 	l = []
-	arq = open("Saidas/out_E_vigenere.txt",'rb').read()
-	out = open("Saidas/out_D_vigenere.txt", "wb")
+	arq = open(name,'rb').read()
 	V = keyV
 	V = V.encode()
 	i = 0
@@ -119,8 +118,12 @@ def vigD(keyV):
 		i +=1
 		if i >= len(V):
 			i = 0
-	out.write(bytes(k))
-	out.close()
+	if op:
+		out = open(nameOut, "wb")
+		out.write(bytes(k))
+		out.close()
+	else:
+		return bytes(k)
 
 def AtaqueClaroVigenere(arq1,arq2):
 	l = []
@@ -129,8 +132,23 @@ def AtaqueClaroVigenere(arq1,arq2):
 	return l
 
 
-def AtaqueEscuroVigere(arq):
-	pass
+def AtaqueEscuroVigere(nameArq):
+	arq = open(nameArq,'rb').read()
+	all_words = open("all_words.txt",'rb').read()
+	all_words = all_words.split()
+	c = itertools.permutations('a0123456789',3) #ABCDEFGHIJKLMNOPQRSTUVWXYZ
+	for i in c:
+		a = ''.join(i)
+		lista_palavras = vigD(a,nameArq,'Saidas/out_D_vig_escuro.txt',0)
+		lista_palavras = lista_palavras.split()
+		d = []
+		for w in lista_palavras:
+			if w in all_words:
+				d.append(w)
+		if len(d) > int(len(arq)/7):
+			vigD(a,nameArq,'Saidas/out_D_vig_escuro.txt',1)
+			print("Chave provavel para a cifra de Vigenere(Ataque Escuro):",a)
+			return
 
 # Funções da cifra de Transposição
 
@@ -204,5 +222,5 @@ def AtaqueEscuroTrans(nameArq):
 				d.append(w)
 		if len(d) > 100:
 			transD(i,nameArq,"Saidas/out_D_trans_escuro.txt",1)
-			print("Chave:", i)
+			print("Chave provavel para a cifra de Transposicao(Ataque Escuro):", i)
 			return
