@@ -1,37 +1,39 @@
-from ceaser import *
-from vigenere import *
-from sub import *
-from trans import *
+from cifras import *
 
+#CeaserE(8)
+#vigE("lucasss")
+#subE()
 
-CeaserE(13)
-vigE("lucasss")
-subE()
-transE(5)
+#CeaserD(8)
+#vigD("lucasss")
+#subD()
 
-CeaserD(13)
-vigD("lucasss")
-subD()
-transD(5)
+#a1 = open("inputs/in.txt",'rb').read()
+a2 = open("Saidas/out_E_ceaser.txt",'rb').read()
+a3 = open("Saidas/out_E_vigenere.txt",'rb').read()
+a4 = open("Saidas/out_E_sub.txt",'rb').read()
+a5 = open("Saidas/out_E_trans.txt",'rb').read()
+a6 = open("inputs/7.input.ceasar.X",'rb').read()
+a7 = open("inputs/7.input.transp.X",'rb').read()
 
-a1 = open("in.txt",'rb').read()
-a2 = open("out_E_ceaser.txt",'rb').read()
-a3 = open("out_E_vigenere.txt",'rb').read()
-a4 = open("out_E_sub.txt",'rb').read()
-a5 = open("out_E_trans.txt",'rb').read()
+#ceaserKey = AtaqueClaroCeaser(a1[0],a2[0])
 
-ceaserKey = AtaqueClaroCeaser(a1[0],a2[0])
+#print("Chave Ceaser:",ceaserKey)
 
-print("Chave Ceaser:",ceaserKey)
+#vigenereKey = AtaqueClaroVigenere(a1,a3)
 
-vigenereKey = AtaqueClaroVigenere(a1,a3)
+#print("Chave de Vigenere:",bytes(vigenereKey).decode())
 
-print("Chave de Vigenere:",bytes(vigenereKey).decode())
+#subKey = AtaqueClaroSub(a1,a4)
 
-subKey = AtaqueClaroSub(a1,a4)
+#print("Chave de Substituicao:",subKey)
 
-print("Chave de Substituicao:",subKey)
-
-transKey = AtaqueClaroTrans(a5)
+transKey = AtaqueClaroTrans(a7)
 
 print("A chave", transKey, "e uma possivel candidata.")
+
+#AtaqueEscuroCeaser(a6)
+
+#AtaqueEscuroVigere(a6)
+
+AtaqueEscuroTrans("inputs/7.input.transp.X")
