@@ -3,79 +3,85 @@ import os
 import itertools
 
 # Funções da cifra de ceaser.
-def CeaserE(keyV):
-	arq = open("inputs/in.txt",'rb').read()
-	out = open("Saidas/out_E_ceaser.txt", "wb")
+def CeaserE(key,name,nameOut,op):
+	arq = open(name,'rb').read()
 	l = []
-	k = keyV
+	k = key
 	for x in arq:
 		d = (x+k) % 256
 		l.append(d)
-	out.write(bytes(l))
-	out.close()
+	if op:
+		open(nameOut,"wb").write(bytes(l))
+	else:
+		return bytes(l)
 
-def CeaserD(keyV):
-	arq = open("Saidas/out_E_ceaser.txt",'rb').read()
-	out = open("Saidas/out_D_ceaser.txt", "wb")
+def CeaserD(key,name,nameOut,op):
+	arq = open(name,'rb').read()
 	l = []
-	k = keyV
+	k = key
 	for x in arq:
 		d = (x-k) % 256
 		l.append(d)
-	out.write(bytes(l))
-	out.close()
+	if op:
+		open(nameOut,"wb").write(bytes(l))
+	else:
+		return bytes(l)
 
 
-def AtaqueClaroCeaser(arq1,arq2):
-	return arq2 - arq1
+def AtaqueClaroCeaser(nameArq1,nameArq2):
+	arq1 = open(nameArq1,'rb').read()
+	arq2 = open(nameArq2,'rb').read()
+	print("Chave possivel para a cifra de Ceaser(Ataque Claro):",(arq2[0] - arq1[0]))
 
 
-def AtaqueEscuroCeaser(arq):
-    all_words = open("all_words.txt",'rb').read()
-    all_words = all_words.split()
 
-    for key in range(1,10**5):
-        words = bytes((t - key) % 256 for t in arq)
-        lista_palavras = words.split()
-
-        l = []
-        for w in lista_palavras:
-            if w in all_words:
-                l.append(w)
-
-        if len(l) > int(len(arq)/7):
-            open("Saidas/out_D_ceaser_escuro.txt","wb").write(bytes((t - key) % 256 for t in arq))
-            print("Chave provavel para a cifra de Ceaser(Ataque Escuro): ",key)
-            break
-
+def AtaqueEscuroCeaser(name,nameOut):
+	all_words = open("all_words.txt",'rb').read()
+	all_words = all_words.split()
+	arq = open(name,'rb').read()
+	for key in range(1,10**5):
+		words = bytes((t - key) % 256 for t in arq)
+		lista_palavras = words.split()
+		l = []
+		for w in lista_palavras:
+			if w in all_words:
+				l.append(w)
+		if len(l) > int(len(arq)/7):
+			open(nameOut,"wb").write(bytes((t - key) % 256 for t in arq))
+			print("Chave provavel para a cifra de Ceaser(Ataque Escuro): ",key)
+			return
 # Funções da cifra de Substituicao.
 
-def subE():
+def subE(nameKey,name,nameOut,op):
 	l = []
-	arq = open("inputs/in.txt",'rb').read()
-	out = open("Saidas/out_E_sub.txt", "wb")
-	V = open("key1",'rb').read()
+	arq = open(name,'rb').read()
+	V = open(nameKey,'rb').read()
 	for x in arq:
 		d = V[x]
 		l.append(d)
-	out.write(bytes(l))
-	out.close()
+	if op:
+		open(nameOut,"wb").write(bytes(l))
+	else:
+		return bytes(l)
 
-def subD():
+def subD(nameKey,name,nameOut,op):
 	l = []
-	arq = open("Saidas/out_E_sub.txt",'rb').read()
-	out = open("Saidas/out_D_sub.txt", "wb")
-	V = open("key1",'rb').read()
+	arq = open(name,'rb').read()
+	V = open(nameKey,'rb').read()
 	for x in arq:
 		for y in V:
 			if V[y] == x:
 				d = y
 				l.append(d)
-	out.write(bytes(l))
-	out.close()
+	if op:
+		open(nameOut,"wb").write(bytes(l))
+	else:
+		return bytes(l)
 
 
-def AtaqueClaroSub(arq1,arq2):
+def AtaqueClaroSub(nameArq1,nameArq2):
+	arq1 = open(nameArq1,'rb').read()
+	arq2 = open(nameArq2,'rb').read()
 	l = {}
 	for i in range(len(arq1)):
 		l[arq1[i]] = arq2[i]
@@ -85,15 +91,14 @@ def AtaqueClaroSub(arq1,arq2):
 	for i in range(256):
 		if i in l:
 			lista[i] = l[i]
+	print("Chave possivel para a cifra de Substituicao(Ataque Claro):",lista)
 
-	return lista
 
 # Funções da cifra de vigenere.
 
-def vigE(keyV):
+def vigE(keyV,name,nameOut,op):
 	l = []
-	arq = open("inputs/in.txt",'rb').read()
-	out = open("Saidas/out_E_vigenere.txt", "wb")
+	arq = open(name,'rb').read()
 	V = keyV
 	V = V.encode()
 	i = 0
@@ -103,8 +108,10 @@ def vigE(keyV):
 		i += 1
 		if i >= len(V):
 			i = 0
-	out.write(bytes(k))
-	out.close()
+	if op:
+		open(nameOut,"wb").write(bytes(k))
+	else:
+		return bytes(k)
 
 def vigD(keyV,name,nameOut,op):
 	l = []
@@ -119,17 +126,17 @@ def vigD(keyV,name,nameOut,op):
 		if i >= len(V):
 			i = 0
 	if op:
-		out = open(nameOut, "wb")
-		out.write(bytes(k))
-		out.close()
+		open(nameOut,"wb").write(bytes(k))
 	else:
 		return bytes(k)
 
-def AtaqueClaroVigenere(arq1,arq2):
+def AtaqueClaroVigenere(nameArq1,nameArq2):
+	arq1 = open(nameArq1,'rb').read()
+	arq2 = open(nameArq2,'rb').read()
 	l = []
 	for i in range(len(arq1)):
 		l.append((arq2[i]- arq1[i]))
-	return l
+	print("Chave possivel para a cifra de Vigenere(Ataque Claro):",bytes(l).decode())
 
 
 def AtaqueEscuroVigere(nameArq):
@@ -152,12 +159,10 @@ def AtaqueEscuroVigere(nameArq):
 
 # Funções da cifra de Transposição
 
-def transE(keyT):
-	arq = open("outputs/7.input",'rb').read()
-	out = open("Saidas/out_E_trans.txt", "wb")
-	key = keyT
+def transE(key,name,nameOut,op):
+	arq = open(name,'rb').read()
 	linhas = key
-	bir = os.path.getsize("outputs/7.input")
+	bir = os.path.getsize(name)
 	colunas = math.ceil(bir/key)
 	mat = [ [] for x in range(linhas)]
 	k = 0
@@ -173,13 +178,12 @@ def transE(keyT):
 	for i in mat:
 		for j in i:
 			l.append(j)
-	out.write(bytes(l))
-	out.close()
-
-def transD(keyT,name,nameOut,op):
+	if op:
+		open(nameOut,"wb").write(bytes(l))
+	else:
+		return bytes(l)
+def transD(key,name,nameOut,op):
 	arq = open(name,'rb').read()
-	out = open(nameOut, "wb")
-	key = keyT
 	linhas = key
 	bir = os.path.getsize(name)
 	colunas = math.ceil(bir/key)
@@ -195,17 +199,17 @@ def transD(keyT,name,nameOut,op):
 		for j in i:
 			l.append(j)
 	if op:
-		out.write(bytes(l))
-		out.close()
+		open(nameOut,"wb").write(bytes(l))
 	else:
 		return bytes(l)
 
-def AtaqueClaroTrans(arq1):
+def AtaqueClaroTrans(nameArq1,nameArq2):
+	arq1 = open(nameArq1,'rb').read()
 	for i in range(1,len(arq1)):
-		transE(i)
-		arq = open("Saidas/out_E_trans.txt",'rb').read()
-		if arq1[0:100] == arq[0:100]:
-			return i
+		arq = transD(i,nameArq1,"x.txt",0)
+		arq2 = open(nameArq2,'rb').read()
+		if arq[0:100] == arq2[0:100]:
+			print("Chave possivel para a cifra de Transposicao(Ataque Claro):", i)
 
 
 def AtaqueEscuroTrans(nameArq):

@@ -1,36 +1,26 @@
 from cifras import *
 
-CeaserE(8)
-vigE("lucasss")
-subE()
 
-CeaserD(8)
-vigD("lucasss","Saidas/out_E_vigenere.txt","Saidas/out_D_vigenere.txt",1)
-subD()
+a1 = "inputs/in.txt"
+a2 = "Saidas/out_E_ceaser.txt"
+a3 = "Saidas/out_E_vigenere.txt"
+a4 = "Saidas/out_E_sub.txt"
+a5 = "Saidas/out_E_trans.txt"
+a6 = "inputs/7.input.ceasar.X"
+a7 = "inputs/7.input.transp.X"
+a8 = "inputs/6.input.vig.X"
+a9 = "outputs/6.input"
+a0 = "outputs/7.input"
+print("Resultados Ataque em Claro:")
+print()
+AtaqueClaroCeaser(a0,a6)
+AtaqueClaroVigenere(a9,a8)
+AtaqueClaroSub(a1,a4)
+AtaqueClaroTrans(a7,a0)
 
-a1 = open("inputs/in.txt",'rb').read()
-a2 = open("Saidas/out_E_ceaser.txt",'rb').read()
-a3 = open("Saidas/out_E_vigenere.txt",'rb').read()
-a4 = open("Saidas/out_E_sub.txt",'rb').read()
-a5 = open("Saidas/out_E_trans.txt",'rb').read()
-a6 = open("inputs/7.input.ceasar.X",'rb').read()
-a7 = open("inputs/7.input.transp.X",'rb').read()
-a8 = open("inputs/6.input.vig.X",'rb').read()
-a9 = open("outputs/6.input",'rb').read()
-a0 = open("outputs/7.input",'rb').read()
-
-ceaserKey = AtaqueClaroCeaser(a0[0],a6[0])
-print("Chave possivel para a cifra de Ceaser(Ataque Claro):",ceaserKey)
-
-vigenereKey = AtaqueClaroVigenere(a9,a8)
-print("Chave possivel para a cifra de Vigenere(Ataque Claro):",bytes(vigenereKey).decode())
-
-subKey = AtaqueClaroSub(a1,a4)
-print("Chave possivel para a cifra de Substituicao(Ataque Claro):",subKey)
-
-transKey = AtaqueClaroTrans(a7)
-print("Chave possivel para a cifra de Trasposicao(Ataque Claro):", transKey)
-
-AtaqueEscuroCeaser(a6)
+print()
+print("Resultados Ataque em Escuro:")
+print()
+AtaqueEscuroCeaser(a6,"Saidas/out_D_ceaser_escuro.txt")
 AtaqueEscuroVigere('inputs/7.input.vig.X')
-AtaqueEscuroTrans("inputs/7.input.transp.X")
+AtaqueEscuroTrans(a7)
